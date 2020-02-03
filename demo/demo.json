@@ -1,0 +1,170 @@
+{
+    "objectIdFieldName": "ObjectId",
+    "uniqueIdField": {
+        "name": "ObjectId",
+        "isSystemMaintained": true
+    },
+    "globalIdFieldName": "",
+    "fields": [
+        {
+            "name": "Report_Date",
+            "type": "esriFieldTypeDate",
+            "alias": "Report_Date",
+            "sqlType": "sqlTypeTimestamp2",
+            "length": 8,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "Mainland_China",
+            "type": "esriFieldTypeInteger",
+            "alias": "Mainland China",
+            "sqlType": "sqlTypeInteger",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "Other_Locations",
+            "type": "esriFieldTypeInteger",
+            "alias": "Other Locations",
+            "sqlType": "sqlTypeInteger",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "Total_Confirmed",
+            "type": "esriFieldTypeInteger",
+            "alias": "Total Confirmed",
+            "sqlType": "sqlTypeInteger",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "ObjectId",
+            "type": "esriFieldTypeOID",
+            "alias": "ObjectId",
+            "sqlType": "sqlTypeInteger",
+            "domain": null,
+            "defaultValue": null
+        }
+    ],
+    "features": [
+        {
+            "attributes": {
+                "Report_Date": 1579496400000,
+                "Mainland_China": 278,
+                "Other_Locations": 4,
+                "Total_Confirmed": 282,
+                "ObjectId": 1
+            }
+        },
+        {
+            "attributes": {
+                "Report_Date": 1579582800000,
+                "Mainland_China": 326,
+                "Other_Locations": 6,
+                "Total_Confirmed": 332,
+                "ObjectId": 2
+            }
+        },
+        {
+            "attributes": {
+                "Report_Date": 1579669200000,
+                "Mainland_China": 547,
+                "Other_Locations": 8,
+                "Total_Confirmed": 555,
+                "ObjectId": 3
+            }
+        },
+        {
+            "attributes": {
+                "Report_Date": 1579755600000,
+                "Mainland_China": 639,
+                "Other_Locations": 14,
+                "Total_Confirmed": 653,
+                "ObjectId": 4
+            }
+        },
+        {
+            "attributes": {
+                "Report_Date": 1579842000000,
+                "Mainland_China": 916,
+                "Other_Locations": 25,
+                "Total_Confirmed": 941,
+                "ObjectId": 5
+            }
+        },
+        {
+            "attributes": {
+                "Report_Date": 1579928400000,
+                "Mainland_China": 1979,
+                "Other_Locations": 40,
+                "Total_Confirmed": 2019,
+                "ObjectId": 6
+            }
+        },
+        {
+            "attributes": {
+                "Report_Date": 1580014800000,
+                "Mainland_China": 2737,
+                "Other_Locations": 57,
+                "Total_Confirmed": 2794,
+                "ObjectId": 7
+            }
+        },
+        {
+            "attributes": {
+                "Report_Date": 1580101200000,
+                "Mainland_China": 4409,
+                "Other_Locations": 64,
+                "Total_Confirmed": 4474,
+                "ObjectId": 8
+            }
+        },
+        {
+            "attributes": {
+                "Report_Date": 1580187600000,
+                "Mainland_China": 5970,
+                "Other_Locations": 87,
+                "Total_Confirmed": 6057,
+                "ObjectId": 9
+            }
+        },
+        {
+            "attributes": {
+                "Report_Date": 1580274000000,
+                "Mainland_China": 7678,
+                "Other_Locations": 105,
+                "Total_Confirmed": 7783,
+                "ObjectId": 10
+            }
+        },
+        {
+            "attributes": {
+                "Report_Date": 1580360400000,
+                "Mainland_China": 9658,
+                "Other_Locations": 118,
+                "Total_Confirmed": 9776,
+                "ObjectId": 11
+            }
+        },
+        {
+            "attributes": {
+                "Report_Date": 1580446800000,
+                "Mainland_China": 11221,
+                "Other_Locations": 153,
+                "Total_Confirmed": 11374,
+                "ObjectId": 12
+            }
+        },
+        {
+            "attributes": {
+                "Report_Date": 1580533200000,
+                "Mainland_China": null,
+                "Other_Locations": null,
+                "Total_Confirmed": null,
+                "ObjectId": 13
+            }
+        }
+    ]
+}

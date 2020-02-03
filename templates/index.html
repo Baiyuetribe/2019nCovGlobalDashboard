@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <title>nCoV-Map</title>
+    <meta name="keywords" content="2019-nCov,SARS,肺炎疫情,抗击肺炎,全球疫情实时监测">
+	<meta name="author" content="佰阅部落">
+	<meta name="version" content="2.3">
+    <meta name="description" content="主打全球疫情监测系统">
+    <!--web fonts-->
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+
+    <!--bootstrap styles-->
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!--icon font-->
+    <link href="/static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+    <!--jquery ui-->
+    <link href="/static/vendor/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+
+    <!--custom styles-->
+    <link href="/static/css/main.css" rel="stylesheet">
+    
+    
+<style>
+    .title{
+        border-left: 8px solid #007aff;
+        padding: 10px 20px 9px 10px;
+        font-size: larger;
+    }
+</style>    
+</head>
+
+
+<body class="fixed-nav top-nav">
+
+    <!--header-->
+    <nav class="navbar navbar-expand-lg fixed-top bg-dark" id="mainNav">
+        <div class="box-container">
+            <div class="text-center">
+                <h2 style="color: white;">2019-2020 nCoV 新型肺炎疫情全球实时动态图</h2>
+            </div>
+        </div>
+    </nav>
+
+    <!--/header-->
+
+  <div class="box px-2">
+    <div class="row">
+        <div class="col-md-2">
+            <p class="title">实时播报</p>
+            <div class="card-body">
+                
+                <ul class="list-unstyled base-timeline" id="online" style="font-size: medium;"></ul>
+       
+                <ul class="list-unstyled base-timeline" id="newslist"></ul>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <p class="title">海外排行</p>
+            <div id="ncov-worldbar" class="chart-container" style="width:auto; height:618px;"></div>
+        </div>
+        <div class="col-md-5">
+            <p class="title">全球疫情(2019-nCov)</h5>
+            <div id="ncov-maps" class="chart-container" style="width: auto;height:618px"></div>
+
+        </div>
+        <div class="col-md-3">
+            <p class="title">中国疫情地图(2019-nCov)</p>
+            <div id="ncov-map" class="chart-container" style="width:auto; height:618px;"></div>
+
+        </div>
+    </div>
+    <hr>
+
+
+    <div class="row">
+        <div class="col-md-2">
+            <p class="title">研究资料</p>
+            <!-- <ul class="list-unstyled base-timeline" id="hotnews"></ul> -->
+            <!-- <div id="ncov-worldcloud" class="chart-container" ></div> -->
+            <ul class="list-unstyled base-timeline">
+                <li><a href="https://innophore.com/2019-ncov/">从分子层面认识的nCov病毒【报告】</a></li>
+                <li><a href="https://www.nytimes.com/interactive/2020/world/asia/china-coronavirus-contain.html">How Bad Will the Coronavirus Outbreak Get? Here Are 6 Key Factors【报告】</a></li>
+                <li><a href="https://youtu.be/mOV1aBVYKGA">Novel coronavirus (2019-nCoV) by@WHO 【视频】</a></li>
+                <li><a href="https://www.youtube.com/watch?v=omzHESciaWg">从3D模型认识2019-nCoV【视频】</a></li>
+                <li><a href="http://www.pharmcube.com/news/article/4645?index=news">重磅！Remdesivir新型肺炎临床试验2月3日启动！海正法匹拉韦紧急申报上市【新闻】</a></li>
+            </ul>
+            
+        </div>
+        <div class="col-md-2">
+            <p class="title">海外趋势</p>
+            <div id="ncov-worldline" class="chart-container" style="width:auto; height:500px;"></div>
+
+        </div>
+        <div class="col-md-4">
+            <p class="title">国内疫情数据</p>
+            <div id="ncov-line" class="chart-container" style="width:auto; height:500px;"></div>
+        </div>
+        <div class="col-md-2">
+            <p class="title">治愈VS死亡</p>
+            <div id="ncov-heal" class="chart-container" style="width:auto; height:500px;"></div>
+
+        </div>
+        <div class="col-md-2">
+            <p class="title">K线(4天)</p>
+            <div id="ncov-kline" class="chart-container" style="width:auto; height:500px;"></div>
+        </div>
+    </div>
+  </div>
+    <!--footer-->
+    <footer class="sticky-footer">
+        <div class="container">
+            <div class="text-center">
+                <small>Copyright &copy; <a href="https://baiyue.one">@Baiyuetribe</a> 2020 | 数据来源：腾讯疫情、百度疫情、维基百科 | 问题反馈及建议：QQ群：635925514</small>
+            </div>
+        </div>
+    </footer>
+    <!--/footer-->
+
+    <!--basic scripts-->
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/jquery-ui/jquery-ui.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!--[if lt IE 9]>
+    <script src="/static/vendor/modernizr.js"></script>
+    <![endif]-->
+
+    <!-- echarts -->
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/maps/china.js"></script>
+    <script type="text/javascript" src="https://assets.pyecharts.org/assets/maps/world.js"></script>
+    <script type="text/javascript" src="/static/js/update.js"></script>
+    <!-- <script type="text/javascript" src="/static/js/wordcloud.js"></script> -->
+</body>
+
+</html>
