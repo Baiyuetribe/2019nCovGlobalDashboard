@@ -3,10 +3,12 @@
 在线体验地址： https://yiqing.baiyue.one
 
 ### 项目依赖
-flask
-requests
-googletrans
-pyecharts
+
+- flask
+- requests
+- googletrans
+- pyecharts
+
 此项目为第二版，所有数据为实时动态爬取，因闲置机器有8GB内存，可自由挥霍，所以暂未设置分离式的数据库，已完成Docker化，任何人都可以轻松部署。
 
 1.动态效果图
