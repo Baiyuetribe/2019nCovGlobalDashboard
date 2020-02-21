@@ -2,6 +2,8 @@
 
 在线体验地址： https://yiqing.baiyue.one
 
+在线体验地址（报告版）： http://ncov.baiyue.one
+
 ### 项目依赖
 
 - flask
