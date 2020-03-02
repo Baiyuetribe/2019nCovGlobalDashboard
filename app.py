@@ -31,8 +31,8 @@ cn_to_en = {'安哥拉': 'Angola', '阿富汗': 'Afghanistan', '阿尔巴尼亚'
              '新加坡': 'Singapore', '斯洛伐克': 'Slovakia', '斯洛文尼亚': 'Slovenia', '所罗门群岛': 'Solomon Is', '索马里': 'Somali', '南非': 'South Africa', '西班牙': 'Spain', '斯里兰卡': 'SriLanka', 
              '圣文森特': 'St.Vincent', '苏丹': 'Sudan', '苏里南': 'Suriname', '斯威士兰': 'Swaziland', '瑞典': 'Sweden', '瑞士': 'Switzerland', '叙利亚': 'Syria', '台湾省': 'Taiwan', '塔吉克斯坦': 'Tajikstan', 
              '坦桑尼亚': 'Tanzania', '泰国': 'Thailand', '多哥': 'Togo', '汤加': 'Tonga', '特立尼达和多巴哥': 'Trinidad and Tobago', '突尼斯': 'Tunisia', '土耳其': 'Turkey', '土库曼斯坦': 'Turkmenistan', 
-             '乌干达': 'Uganda', '乌克兰': 'Ukraine', '阿联酋': 'United Arab Emirates', '英国': 'United Kiongdom', '美国': 'United States of America', '乌拉圭': 'Uruguay', '乌兹别克斯坦': 'Uzbekistan', 
-             '委内瑞拉': 'Venezuela', '越南': 'Vietnam', '也门': 'Yemen', '南斯拉夫': 'Yugoslavia', '津巴布韦': 'Zimbabwe', '扎伊尔': 'Zaire', '赞比亚': 'Zambia'}
+             '乌干达': 'Uganda', '乌克兰': 'Ukraine', '阿联酋': 'United Arab Emirates', '英国': 'United Kiongdom', '美国': 'United States', '乌拉圭': 'Uruguay', '乌兹别克斯坦': 'Uzbekistan', 
+             '委内瑞拉': 'Venezuela', '越南': 'Vietnam', '也门': 'Yemen', '南斯拉夫': 'Yugoslavia', '津巴布韦': 'Zimbabwe', '扎伊尔': 'Zaire', '赞比亚': 'Zambia','克罗地亚':'Croatia','北马其顿':'North Macedonia'}
 
 
 def update_news():
@@ -100,6 +100,22 @@ def update_china_data(unit=3600 * 2):
     
     return p_data
 
+def update_china_heal_data(unit=3600 * 2):
+    url = 'https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5'
+    r_data = json.loads(requests.get(url).text)
+    data = json.loads(r_data['data'])    #初始化json数据，为dict ['chinaTotal']
+    p_data = {}
+    #print(data['areaTree'][0]['children'][0])
+    for i in data['areaTree'][0]['children']:   #各个省份
+        p_data[i['name']] = i['total']['confirm'] - i['total']['dead'] - i['total']['heal']
+    # 先对字典进行排序,按照value从大到小
+    p_data= sorted(p_data.items(), key=lambda x: x[1], reverse=True)
+    #print(p_data)
+    
+    return p_data
+
+
+
 def china_map(data)-> Map:
     opt= [
         {"min":1001,"color":'#731919'},
@@ -114,7 +130,7 @@ def china_map(data)-> Map:
             .add(
                 "确诊人数", data, "china", is_map_symbol_show=False,
             )
-            .set_series_opts(label_opts=opts.LabelOpts(is_show=True,font_size=8))
+            .set_series_opts(label_opts=opts.LabelOpts(is_show=False,font_size=8))
             .set_global_opts(
                 visualmap_opts=opts.VisualMapOpts(max_=1000,is_piecewise=True,pieces=opt),
                 legend_opts=opts.LegendOpts(is_show=False),
@@ -131,8 +147,14 @@ def update_world_data(unit=3600 * 2):
     countryEN = []
     total_confirm = []
     for i in data['areaTree']:
-        countryEN.append(cn_to_en[i['name']])
-        total_confirm.append(i['total']['confirm'])
+        if i['name'] != '钻石号邮轮':
+            if i['name'] == '日本本土':
+                countryEN.append('Japan')
+                total_confirm.append(i['total']['confirm'])
+            else:
+                countryEN.append(cn_to_en[i['name']])
+                total_confirm.append(i['total']['confirm'])
+        
     data = [list(z) for z in zip(countryEN, total_confirm)]
     return data
 
@@ -177,10 +199,11 @@ def world_map(data)-> Map:
         )
     return c
 
+
+
 def kline()-> Kline:
-    url = 'https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5'
-    r_data = json.loads(requests.get(url).text)
-    data = json.loads(r_data['data'])    #初始化json数据，为dict ['chinaTotal']    
+ 
+    data = get_origin_data()   #初始化json数据，为dict ['chinaTotal']    
     #每日确诊增加数
     a = []
     c = [x['confirm'] for x in data['chinaDayList']]
@@ -217,10 +240,15 @@ def kline()-> Kline:
     )
     return c
 
+def get_origin_data():
+    url = 'https://view.inews.qq.com/g2/getOnsInfo?name=disease_other'
+    r = requests.get(url)
+    data = json.loads(json.loads(r.text)['data'])
+    return data
+
+
 def line_connect_null() -> Line:
-    url = 'https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5'
-    r_data = json.loads(requests.get(url).text)
-    data = json.loads(r_data['data'])    #初始化json数据，为dict ['chinaTotal']    
+    data = get_origin_data()    #初始化json数据，为dict ['chinaTotal']    
     #每日确诊增加数
     Dailyincrease = []
     a = [x['confirm'] for x in data['chinaDayList']]
@@ -229,26 +257,18 @@ def line_connect_null() -> Line:
             Dailyincrease.append(0)
         else:
             Dailyincrease.append(int(a[i]) - int(a[i-1]))  
-    #每日疑似增加数
-    Dailysuspect = []
-    a = [x['suspect'] for x in data['chinaDayList']]
-    for i in range(len(a)):
-        if i == 0:
-            Dailysuspect.append(0)
-        else:
-            Dailysuspect.append(int(a[i]) - int(a[i-1]))        
     c = (
         Line()
         .add_xaxis([x['date'] for x in data['chinaDayList']])   #直接列表
-        .add_yaxis('确诊',[x['confirm'] for x in data['chinaDayList']])    #‘列表名，[]’
-        .add_yaxis('疑似',[x['suspect'] for x in data['chinaDayList']])
-        .add_yaxis('治愈',[x['heal'] for x in data['chinaDayList']])
-        .add_yaxis('死亡',[x['dead'] for x in data['chinaDayList']])
-        .add_yaxis('每日确诊增加数',Dailyincrease,areastyle_opts=opts.AreaStyleOpts(opacity=0.5))   #areastyle_opts=opts.AreaStyleOpts(opacity=0.5) 投射面积
-        .add_yaxis('每日疑似增加数',Dailysuspect,is_smooth=True)    #is_smooth=True 代表平滑曲线
+        .add_yaxis('确诊',[x['confirm'] for x in data['chinaDayList']],label_opts=opts.LabelOpts(is_show=False))    #‘列表名，[]’
+        .add_yaxis('疑似',[x['suspect'] for x in data['chinaDayList']],label_opts=opts.LabelOpts(is_show=False))
+        .add_yaxis('治愈',[x['heal'] for x in data['chinaDayList']],label_opts=opts.LabelOpts(is_show=False))
+        .add_yaxis('死亡',[x['dead'] for x in data['chinaDayList']],label_opts=opts.LabelOpts(is_show=False))
+        .add_yaxis('每日确诊增加数',Dailyincrease,areastyle_opts=opts.AreaStyleOpts(opacity=0.5),label_opts=opts.LabelOpts(is_show=False))   #areastyle_opts=opts.AreaStyleOpts(opacity=0.5) 投射面积
         .set_global_opts(
             #title_opts=opts.TitleOpts(title="2019-nCov"),
             datazoom_opts=opts.DataZoomOpts(range_end=100),
+            
         )
     )
     return c
@@ -314,7 +334,7 @@ def world_bar() -> Bar:
 
 #海外国家趋势
 def other_line() -> Line:
-    url = 'https://services1.arcgis.com/0MSEUqKaxRlEPj5g/arcgis/rest/services/cases_time/FeatureServer/0/query?f=json&where=Report_Date%3C%3D%272020-02-01%2015%3A59%3A59%27&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=Report_Date%20asc&resultOffset=0&resultRecordCount=2000&cacheHint=true'
+    url = 'https://services1.arcgis.com/0MSEUqKaxRlEPj5g/arcgis/rest/services/cases_time_v3/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=Report_Date_String%20asc&resultOffset=0&resultRecordCount=2000&cacheHint=true'
     r_data = json.loads(requests.get(url).text)
     data = r_data['features']    #初始化json数据，为dict ['chinaTotal']   
 
@@ -348,6 +368,7 @@ def china_online():
 
 @app.route("/")
 def index():
+    other_data = get_origin_data()
     return render_template("index.html")
 
 # 全国地图数据
@@ -355,6 +376,13 @@ def index():
 def get_map():
     data = update_china_data()
     return china_map(data).dump_options_with_quotes()   #其中dump_options_with_quotes()是必备，任意图形。# 全国地图数据
+# 全国地图数据待治愈
+@app.route("/map2")
+def get_map2():
+    data = update_china_heal_data()
+    return china_map(data).dump_options_with_quotes()   #其中dump_options_with_quotes()是必备，任意图形。# 全国地图数据
+
+
 #世界地图
 @app.route("/maps")
 def get_maps():
