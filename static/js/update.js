@@ -4,7 +4,8 @@ var nkline = echarts.init(document.getElementById('ncov-kline'), 'white', {rende
 var nline = echarts.init(document.getElementById('ncov-line'), 'white', {renderer: 'canvas'});
 var worldbar = echarts.init(document.getElementById('ncov-worldbar'), 'white', {renderer: 'canvas'});
 var worldline = echarts.init(document.getElementById('ncov-worldline'), 'white', {renderer: 'canvas'});
-var heal = echarts.init(document.getElementById('ncov-heal'), 'white', {renderer: 'canvas'});
+//var heal = echarts.init(document.getElementById('ncov-heal'), 'white', {renderer: 'canvas'});
+var chinamap2 = echarts.init(document.getElementById('ncov-map2'), 'white', {renderer: 'canvas'});
 
 $(
     function () {
@@ -13,12 +14,14 @@ $(
         updateOnline(); //实时统计数据
         updateHotNews();    //热点更新
         fetchData(chinamap);
+        fetchNowConfirm(chinamap2);
+
         fetchData2(worldmap);
         kline(nkline);
         line(nline);
         getworldbar(worldbar);
         getworldline(worldline);
-        getheal(heal);
+        //getheal(heal);
         setInterval(updateNews, 30 * 60 * 1000);    //半小时获取一次
         //setInterval(updateOverall, 60 * 1000);
         setInterval(fetchData, 30 * 60 * 1000);
@@ -86,6 +89,25 @@ function fetchData(chinamap) {
         }
     });
 }
+
+
+//中国地图2
+function fetchNowConfirm(chinamap2) {
+    $.ajax({
+        type: "GET",
+        url: getHost() + "/map2",
+        dataType: 'json',
+        success: function (result) {
+            chinamap2.setOption(result);
+        }
+    });
+}
+
+
+
+
+
+
 //世界地图
 function fetchData2(worldmap) {
     $.ajax({
